@@ -1,0 +1,5 @@
+composition,parent_structure,host_element,dopant_element,dopant_fraction,supercell,seeds,output_subdir,notes
+Li3Er0.5Sc0.5Cl6,structures/Li3ErCl6.cif,Er,Sc,0.5,2 2 2,0 1 2 3 4,Li3Er0.5Sc0.5Cl6,Main novel hypothesis. Random orderings - validate energy spread before drawing conclusions.
+Li3Sc0.5Er0.5Cl6,structures/Li3ScCl6.cif,Sc,Er,0.5,2 2 2,0 1 2 3 4,Li3Sc0.5Er0.5Cl6_alt,Alternate parent for Li3Er0.5Sc0.5Cl6 cross-check.
+Li3In0.5Er0.5Cl6,structures/Li3InCl6.cif,In,Er,0.5,2 2 2,0 1 2 3 4,Li3In0.5Er0.5Cl6,Lower-risk mixed-cation chloride.
+Li3Er0.5In0.5Cl6,structures/Li3ErCl6.cif,Er,In,0.5,2 2 2,0 1 2 3 4,Li3Er0.5In0.5Cl6_alt,Alternate parent for Li3In0.5Er0.5Cl6 cross-check.

@@ -21,6 +21,7 @@ relation.
 9. [Performance and GPU Notes](#9-performance-and-gpu-notes)
 10. [Limitations and Scientific Caveats](#10-limitations-and-scientific-caveats)
 11. [Troubleshooting](#11-troubleshooting)
+12. [Mixed-Cation Structure Generation and Pre-MD Relaxation (Windows / Miniforge)](#12-mixed-cation-structure-generation-and-pre-md-relaxation-windows--miniforge)
 
 ---
 
@@ -503,6 +504,106 @@ mlip_md_pipeline/
 └── structures/
     └── example/                  # Place CIF/POSCAR files here
 ```
+
+---
+
+## 12. Mixed-Cation Structure Generation and Pre-MD Relaxation (Windows / Miniforge)
+
+For mixed-cation Li3MCl6 candidates such as **Li3Er0.5Sc0.5Cl6** and
+**Li3In0.5Er0.5Cl6**, two helper scripts live under `scripts/`:
+
+- `scripts/generate_mixed_cation_supercell.py` — builds substituted supercells from a parent CIF/POSCAR, with multiple random seeds.
+- `scripts/relax_structures.py` — relaxes the generated structures with CHGNet (default) or optional MACE-MP-0 before MD.
+
+A small example manifest is at `manifests/mixed_cation_examples.csv`.
+
+### 12.1 Honesty caveats (read before using results)
+
+- The substitution ordering is **random** on the M sublattice. To approximate physical behavior, generate ≥ 5 seeds, relax all of them, and inspect the relative-energy spread. Treat the lowest-energy ordering as a **screening hypothesis**, not a ground state.
+- Universal MLIPs (CHGNet, MACE-MP-0) for **lithium halides** are not guaranteed accurate. Confirm low-energy candidates with DFT (e.g. VASP or QE) before claiming a specific ordering or driving experimental synthesis.
+- Convergence with `--fmax 0.05 --max-steps 200` is a reasonable default but may be insufficient for cells with strained dopant environments — increase `--max-steps` and re-check.
+
+### 12.2 Windows Miniforge — exact commands
+
+Open **Miniforge Prompt** and run, from the repository root:
+
+```bat
+:: 1) Activate the project env and install MLIP backends
+conda activate mlip_md
+pip install chgnet
+pip install mace-torch    :: optional; only if you want MACE relaxations
+
+cd mlip_md_pipeline
+
+:: 2) Generate Li3Er0.5Sc0.5Cl6 supercells from a Li3ErCl6 parent (5 seeds)
+python scripts\generate_mixed_cation_supercell.py ^
+    --parent ..\structures\Li3ErCl6.cif ^
+    --host-element Er ^
+    --dopant Sc ^
+    --dopant-fraction 0.5 ^
+    --supercell 2 2 2 ^
+    --seeds 0 --seeds 1 --seeds 2 --seeds 3 --seeds 4 ^
+    --output-dir ..\structures\Li3Er0.5Sc0.5Cl6\
+
+:: 3) Generate Li3In0.5Er0.5Cl6 supercells from a Li3InCl6 parent
+python scripts\generate_mixed_cation_supercell.py ^
+    --parent ..\structures\Li3InCl6.cif ^
+    --host-element In ^
+    --dopant Er ^
+    --dopant-fraction 0.5 ^
+    --supercell 2 2 2 ^
+    --seeds 0 --seeds 1 --seeds 2 --seeds 3 --seeds 4 ^
+    --output-dir ..\structures\Li3In0.5Er0.5Cl6\
+
+:: 4) Relax all generated POSCARs with CHGNet (CPU-safe)
+python scripts\relax_structures.py ^
+    --inputs ..\structures\Li3Er0.5Sc0.5Cl6\*.vasp ^
+    --calculator chgnet ^
+    --device cpu ^
+    --fmax 0.05 ^
+    --max-steps 200 ^
+    --output-dir ..\structures\Li3Er0.5Sc0.5Cl6\relaxed\
+
+python scripts\relax_structures.py ^
+    --inputs ..\structures\Li3In0.5Er0.5Cl6\*.vasp ^
+    --calculator chgnet ^
+    --device cpu ^
+    --output-dir ..\structures\Li3In0.5Er0.5Cl6\relaxed\
+
+:: 5) (Optional) Re-relax the lowest-energy seeds with MACE-MP-0 for a cross-check
+python scripts\relax_structures.py ^
+    --inputs ..\structures\Li3Er0.5Sc0.5Cl6\*_seed0.vasp ^
+    --calculator mace-mp-0 ^
+    --device cuda ^
+    --output-dir ..\structures\Li3Er0.5Sc0.5Cl6\relaxed_mace\
+```
+
+The `^` is the Windows command-prompt line continuation. In PowerShell use a
+backtick (`` ` ``) instead. On Linux/macOS use `\` and forward slashes.
+
+### 12.3 What you get
+
+For each seed, the generator writes:
+
+```
+<output-dir>/<base>_seed<N>.cif
+<output-dir>/<base>_seed<N>.vasp
+<output-dir>/<base>_seed<N>.json     :: metadata (swap indices, host, fraction, warnings)
+<output-dir>/generation_summary.json
+```
+
+The relaxer writes, per input file:
+
+```
+<output-dir>/<stem>_relaxed.cif
+<output-dir>/<stem>_relaxed.vasp
+<output-dir>/<stem>_relax.log        :: ASE optimizer log
+<output-dir>/relaxation_summary.csv  :: energies, fmax, n_steps, convergence flag
+```
+
+Use the energies in `relaxation_summary.csv` to pick the lowest-energy seed
+per composition, then feed that relaxed POSCAR into the MD pipeline via
+`tier1a_mlip_input_template.csv`.
 
 ---
 
