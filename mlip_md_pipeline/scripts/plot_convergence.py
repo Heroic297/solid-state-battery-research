@@ -16,13 +16,21 @@ Usage:
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# Make `mlip_md` importable when running this script directly from inside
+# `mlip_md_pipeline/` without an editable install or PYTHONPATH set.
+_PKG_ROOT = Path(__file__).resolve().parent.parent
+if str(_PKG_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PKG_ROOT))
+
 import click
 import logging
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from pathlib import Path
 
 logger = logging.getLogger(__name__)
 

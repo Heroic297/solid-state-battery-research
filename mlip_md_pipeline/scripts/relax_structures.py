@@ -43,6 +43,22 @@ import sys
 import time
 from pathlib import Path
 
+# Make `mlip_md` importable when running this script directly from inside
+# `mlip_md_pipeline/` without an editable install or PYTHONPATH set.
+_PKG_ROOT = Path(__file__).resolve().parent.parent
+if str(_PKG_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PKG_ROOT))
+
+# Preload torch before any CHGNet/MACE import. On Windows, importing
+# `chgnet.model.dynamics` (or MACE) before `torch` can fail with
+# "torch\\lib\\shm.dll" load errors due to DLL search-order issues.
+# We only import it here; missing torch is fine for non-torch code paths
+# (e.g. dummy calculator tests), so we swallow ImportError silently.
+try:  # noqa: SIM105
+    import torch  # noqa: F401  (intentional preload for Windows DLL ordering)
+except ImportError:
+    pass
+
 import click
 
 logger = logging.getLogger(__name__)
@@ -113,7 +129,11 @@ def relax_one(
 
     target = atoms
     if relax_cell:
-        from ase.constraints import ExpCellFilter
+        try:
+            # ASE >= 3.23 moved filters out of ase.constraints
+            from ase.filters import ExpCellFilter
+        except ImportError:
+            from ase.constraints import ExpCellFilter
         target = ExpCellFilter(atoms)
 
     if optimizer_name.upper() == "FIRE":
