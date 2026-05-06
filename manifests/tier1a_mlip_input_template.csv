@@ -1,0 +1,13 @@
+candidate_id,structure_file,mobile_species,ion_charge,formula,space_group,calculator,device,total_time_ps,equilibration_time_ps,timestep_fs,temperatures_K,notes
+Li2_8In0_2Sc0_2Yb0_2Lu0_2Zr0_2Cl6,Li2_8In0_2Sc0_2Yb0_2Lu0_2Zr0_2Cl6.cif,Li,1,Li2.8In0.2Sc0.2Yb0.2Lu0.2Zr0.2Cl6,"C2/m (No. 12), disordered",mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li2_7In0_7Hf0_3Cl6,Li2_7In0_7Hf0_3Cl6.cif,Li,1,Li2.7In0.7Hf0.3Cl6,C2/m (No. 12),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li3YCl1_5Br4_5,Li3YCl1_5Br4_5.cif,Li,1,Li3YCl1.5Br4.5,P-3m1 or distorted (No. 164),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li6_6P0_4Ge0_6S5I,Li6_6P0_4Ge0_6S5I.cif,Li,1,Li6.6P0.4Ge0.6S5I,"F-43m (No. 216, disordered)",mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li6_25P0_75Si0_25S5I,Li6_25P0_75Si0_25S5I.cif,Li,1,Li6.25P0.75Si0.25S5I,"F-43m (No. 216, disordered)",mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+LiHfFCl4_Li_stuffed_variant,LiHfFCl4_Li_stuffed_variant.cif,Li,1,LiHfFCl4 (Li-stuffed variant),Pnma or P1 (No. 62 or 2),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Na3GdBr3I3,Na3GdBr3I3.cif,Na,1,Na3GdBr3I3,C2/m (No. 12),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+LiZrFCl4,LiZrFCl4.cif,Li,1,LiZrFCl4,Pnma or P1 (est.),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Na3YBr3I3,Na3YBr3I3.cif,Na,1,Na3YBr3I3,C2/m (No. 12),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li3Er0_5Sc0_5Cl6,Li3Er0_5Sc0_5Cl6.cif,Li,1,Li3Er0.5Sc0.5Cl6,"C2/m (No. 12, predicted)",mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li3In0_5Er0_5Cl6,Li3In0_5Er0_5Cl6.cif,Li,1,Li3In0.5Er0.5Cl6,C2/m (No. 12),mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD
+Li2ZrBiCl6_approx_Li2_5Zr0_5Bi0_5Cl6,Li2ZrBiCl6_approx_Li2_5Zr0_5Bi0_5Cl6.cif,Li,1,Li2ZrBiCl6 (approx. Li2.5Zr0.5Bi0.5Cl6),"P-3m1 (No. 164, modified by Bi)",mace-mp-0,cuda,200,10,2.0,600;800;1000,Tier 1A novel candidate; structure must be supplied before production MD

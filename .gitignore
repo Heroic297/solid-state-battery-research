@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Conda
+.conda/
+
+# Large/generated MD outputs
+mlip_md_pipeline/outputs/
+mlip_md_pipeline/trajectories/
+mlip_md_pipeline/structures/
+*.traj
+*.extxyz
+*.log
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
